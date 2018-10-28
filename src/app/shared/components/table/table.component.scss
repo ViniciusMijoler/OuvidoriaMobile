@@ -1,0 +1,11 @@
+table {
+    width: 100%;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+}
+
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+    padding: 2px 10px !important;
+}

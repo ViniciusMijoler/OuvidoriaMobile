@@ -1,0 +1,140 @@
+<app-card [title]="'Repondendo Manisfestação'">
+    <form [formGroup]="manifestationForm" novalidate (ngSubmit)="sendAnswer()">
+        
+        <div class="row" style="margin-bottom: 10px">
+            <div class="col-md-12">
+                <button mat-raised-button color="warn" [routerLink]="['/manifestations']">Cancelar</button>
+    
+                <button *ngIf="!(!manifestationForm.value.userId || manifestationForm.value.userId == 0)" mat-raised-button type="button" (click)="reply()" color="primary" style="float: right;">
+                    Responder
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-lg-8">
+
+                <div class="row">
+
+                    <div class="col-md-12 col-lg-3">
+                        <mat-form-field floatLabel="always">
+                            <input matInput type="number" formControlName="protocol" placeholder="Protocolo" [readonly]="true" required/>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="col-md-12 col-lg-3">
+                        <mat-form-field floatLabel="always">
+                            <input matInput [matDatepicker]="picker" formControlName="dateIncluded" placeholder="Data de Inclusão" [readonly]="true" required/>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker [disabled]="true" #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="col-md-12 col-lg-6">
+                        <mat-form-field floatLabel="always" formGroupName="classification">
+                            <input matInput type="text" formControlName="description" placeholder="Classificação" [readonly]="true" required/>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-12 col-lg-6">
+                        <mat-form-field floatLabel="always" formGroupName="segment">
+                            <input matInput type="text" formControlName="description" placeholder="Segmento" [readonly]="true" required/>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="col-md-12 col-lg-6">
+                        <mat-form-field floatLabel="always" formGroupName="place">
+                            <input matInput type="text" formControlName="description" placeholder="Origem" [readonly]="true" required/>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-12 col-lg-6">
+                        <mat-form-field floatLabel="always" formGroupName="subject">
+                            <input matInput type="text" formControlName="description" placeholder="Assunto" [readonly]="true" required/>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="col-md-12 col-lg-6">
+                        <mat-form-field floatLabel="always" formGroupName="subSubject">
+                            <input matInput type="text" formControlName="description" placeholder="SubAssunto" [readonly]="true" required/>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <slideshow [height]="'200px'"
+                        [minHeight]="'200px'"
+                        [autoPlay]="true && imageSources?.length > 1"
+                        [arrowSize]="'15px'"
+                        [showArrows]="imageSources?.length > 1"
+                        [imageUrls]="imageSources"
+                        [lazyLoad]="imageSources?.length > 1"
+                        [autoPlayWaitForLazyLoad]="true"
+                        [showDots]="true">
+                </slideshow>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <mat-form-field floatLabel="always">
+                    <textarea matInput type="text" formControlName="manifestationText" placeholder="Texto da Manisfestação" [readonly]="true" required></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+        
+        <ng-container *ngIf="showAnswer">
+
+            <div class="row">
+    
+                <div class="col-md-6">
+                    <mat-form-field floatLabel="always">
+                        <textarea matInput type="text" [errorStateMatcher]="matcher" formControlName="answerLetter" placeholder="Digite a reposta..." required></textarea>
+                        <mat-error *ngIf="manifestationForm.controls.answerLetter.hasError('required')">
+                            Resposta é <strong>obrigatório</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+    
+                <div class="col-md-3">
+                    <mat-form-field floatLabel="always" >
+                        <mat-select placeholder="Prioridade" formControlName="priorityId" required>
+                            <mat-option *ngFor="let priority of priorities" [value]="priority.id">
+                                {{priority.description}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                
+                <div class="col-md-3">
+                    <mat-form-field floatLabel="always" formGroupName="situation">
+                        <mat-select placeholder="Situação" formControlName="id" required>
+                            <mat-option *ngFor="let situation of situations" [value]="situation.id">
+                                {{situation.description}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+    
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <button mat-raised-button type="submit" color="primary" style="float: right; margin-left: 5px">
+                        Enviar Resposta
+                    </button>
+
+                    <button mat-raised-button type="button" (click)="cancel()" color="warn" style="float: right;">
+                        Cancelar Resposta
+                    </button>
+                </div>
+            </div>
+
+        </ng-container>
+        
+    </form>
+</app-card>
